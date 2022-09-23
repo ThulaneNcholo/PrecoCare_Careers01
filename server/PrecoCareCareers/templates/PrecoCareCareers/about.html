@@ -1,0 +1,99 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .avatar {
+        vertical-align: middle;
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+<!-- hero image start  -->
+<section style="height: 10%; width: 100%;">
+    <img src="{% static 'images/about.jpg' %}" alt="" style="height: 400px; width: 100%; object-fit: cover;">
+</section>
+<!-- hero image end  -->
+
+<!-- Content start  -->
+<section class="mt-5 container">
+    <center>
+        <h2 class="fw-bold"><span style="color: darkblue;">PrecoCare</span> <span class="text-secondary">Career's</span></h2>
+    </center>
+    <section>
+        <center>
+            <p class="mt-3">PrecoCare Career's servers a modern classified healthCare job search engine.strives to put job seekers first, giving them free access to search for healthcare related jobs 24/7 hours of the day.</p>
+            <p><span class="text-secondary fw-bold">PrecoCare Career's</span>  is associated with <span class="fw-bold" ><a href="#" style="text-decoration: none; color: darkblue;" >PrecoCare</a></span> ,a doctors appointment booking application.</p>
+            <p>Both <span class="fw-bold" ><a href="#" style="text-decoration: none; color: darkblue;" >PrecoCare</a></span> and <span class="text-secondary fw-bold">PrecoCare Career's</span> are created by  <span class="fw-bold"><a href="#" style="text-decoration: none;">Sidekicks Tech</a> .</span></p>
+        </center>
+    </section>
+</section>
+<!-- Content end  -->
+
+<!-- PrecoCare Section start  -->
+<section class="container" style="margin-top: 100px;">
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 mt-3">
+            <img src="{% static 'images/precoCare.png' %}" alt="" style="height: 600px; width: 100%; object-fit: contain;">
+        </div>
+        <div class="col-sm-12 col-lg-6 mt-3">
+            <h2 class="text-secondary"><span  class="fw-bold" style="color: darkblue;">PrecoCare</span> Appointment Booking Application.</h2>
+            <p><strong>PrecoCare</strong> is an online appointment booking application,which connects patients with certified doctors and healthcare professionals in they area.Patients can filter they search according to a speciality and location,available appointment dates and Time-slots.Patients can also filter they search based on the medical scheme or Insurance provider,and many more on <strong>PrecoCare</strong>.</p>
+            <p>Sign Up as a Doctor <i class="bi bi-arrow-right-square-fill px-3" style="color: darkblue; font-size: 20px;"></i></p>
+            <p>Sign Up your Clinic <i class="bi bi-arrow-right-square-fill px-3" style="color: darkblue; font-size: 20px;"></i></p>
+            <p>Sign Up as a Patient<i class="bi bi-arrow-right-square-fill px-3" style="color: darkblue; font-size: 20px;"></i></p>
+            <button class="btn text-white mt-4 py-3" style="background-color: darkblue;">PrecoCare Application</button>
+        </div>
+    </div>
+</section>
+<!-- PrecoCare section End  -->
+
+<!-- Founders Section start  -->
+<section class="container" style="margin-top: 100px;">
+    <h4 class="fw-bold" style="color: darkblue;">Founders</h4>
+    <center>
+        <div class="row mt-5">
+            <div class="col-sm-6 mt-4">
+                <div class="card border-0" style="width: 18rem;">
+                    <div class="bg-light rounded border" style="height: 200px; width: 100;"></div>
+                    <!-- <img  class="rounded" src="{% static 'images/jamal.jpg' %}" alt="" style="object-fit: cover;"> -->
+                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                      <h5 class="card-title" style="color: darkblue;">Thulane Ncholo</h5>
+                      <p class="card-text">Founder</p>
+                      <p class="card-text text-secondary">Developer</p>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <div class="card border-0" style="width: 18rem;">
+                    <div class="bg-light rounded border" style="height: 200px; width: 100;"></div>
+                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                      <h5 class="card-title" style="color: darkblue;">Gauta Ncholo</h5>
+                      <p class="card-text">Founder</p>
+                      <p class="card-text text-secondary">Developer</p>
+                    </div>
+                  </div>
+          </div>
+        </div>
+    </center>
+</section>
+<!-- Founder Section End  -->
+
+<!-- Sidekick Tech Add  -->
+<section class="mt-5 px-5" style="background-color: darkblue; padding-top: 70px; padding-bottom: 70px;">
+    <center>
+        <h3 class="fw-bold text-white">Sidekicks-Tech.</h3>
+        <p class="text-white">Software and Tech Solutions company.</p>
+        <p class="text-white">Ncholo Group Inc.</p>
+        <button class="btn bg-light border py-3 mt-4 px-5 fw-bold" style="color: darkblue;">Sidekicks</button>
+    </center>
+</section>
+<!-- SideKicks Tech add  -->
+
+{% endblock %}

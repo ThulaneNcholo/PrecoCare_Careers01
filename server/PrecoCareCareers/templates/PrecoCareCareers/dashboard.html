@@ -1,0 +1,480 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- page heading start  -->
+<section class="my-5">
+    <center>
+        <h3 class="text-secondary">Dashboard</h3>
+    </center>
+</section>
+<!-- page heading start  -->
+
+
+<!-- hero buttons start  -->
+<section class="mt-5 container">
+    {% include 'partials/dashboardhero.html'%}
+</section>
+<!-- hero buttons end  -->
+
+<section class="container mt-5">
+    {% for message in messages %}
+      <div class="alert alert-warning" role="alert">
+          {{message}}
+      </div>
+    {% endfor %}
+</section>
+
+<!-- list open jobs start -->
+<section class="container container-spacing">
+    <h6 class="admin-headings">Open Listings</h6>
+    <div class="underline-style"></div>
+
+    <!-- table headings start  -->
+    <div class="row mx-0 mt-4 text-white rounded py-3 hide-component" style="background-color: darkblue;">
+        <div class="col">
+            Job Title
+        </div>
+        <div class="col">
+            Candidates
+        </div>
+        <div class="col">
+            Viewed
+        </div>
+        <div class="col">
+            Job Status
+        </div>
+        <div class="col">
+            Action
+        </div>
+    </div>
+    <!-- table headings end  -->
+
+    <!-- table jobs start -->
+    {% for job in agent_listings %}
+    <div class="row mx-0 border py-3 mt-3 rounded">
+        <div class="col-sm-12 col-lg mt-3 text-secondary">
+            {{job.job_title}}
+        </div>
+        <div class="col-sm-12 col-lg mt-2">
+            <ol class="list-group list-group-numbered list-group-flush mx-0">
+                {% for candidate in candidates %}
+                {% if candidate.listing.id == job.id%}
+                    <li class="list-group-item px-0">{{candidate.first_name}}</li>
+                {% endif %}
+                {% endfor %}
+            </ol>
+
+            <!-- {% if candidated.listing.id  == job.id %}
+            <p>{{candidates}}</p>
+            {% endif %} -->
+            <!-- {% if candidates.listing.id == job.id %}
+            <strong>{{candidates}}</strong> Candidates Applied
+            {% endif %} -->
+        </div>
+        <div class="col-sm-12 col-lg mt-3">
+            {% for count in job_count %}
+            {% if count.joblisting.id == job.id %}
+            <strong>{{count.views_count}}</strong> Views
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-12 col-lg mt-3">
+            {{job.application_status}}
+        </div>
+        <div class="col-sm-12 col-lg mt-3">
+            <!-- Listing details and Edit Job modals start  -->
+            <div class="modal fade" id="ListingDetailsModal{{job.id}}" aria-hidden="true" aria-labelledby="ListingDetailsModalLabel" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="ListingDetailsModalLabel">{{job.job_title}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group my-4">
+                            <li class="list-group-item py-3">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 mt-3">
+                                        {{job.job_title}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 mt-3">
+                                        <a class="fontsColor" href="#EditListingModal{{job.id}}" data-bs-toggle="modal">
+                                            Update Listing
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                          </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item py-3 text-white" style="background-color: darkblue;">Candidates</li>
+                            {% for candidate in candidates %}
+                            {% if candidate.listing.id == job.id%}
+                            <li class="list-group-item py-3">
+                                <div class="row">
+                                    <div class="col mt-3 d-flex align-items-center">
+                                        {{candidate.first_name}} {{candidate.last_name}}
+                                    </div>
+                                    <div class="col mt-3">
+                                        <a href="{% url 'candidate' candidate.id %}" style="text-decoration: none;">
+                                            <button class="btn bg-light border" style="color: darkblue; width: 100%;">View</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <ul class="list-group mt-5">
+                            <li class="list-group-item py-3 text-white" style="background-color: darkblue;">Listing Details</li>
+                            <li class="list-group-item py-3">{{job.job_title}}</li>
+                            <li class="list-group-item py-3">{{job.company}}</li>
+                            <li class="list-group-item py-3">{{job.city}}</li>
+                            <li class="list-group-item py-3">{{job.province}}</li>
+                            <li class="list-group-item py-3">{{job.salary}}</li>
+                            <li class="list-group-item py-3">{{job.job_status}}</li>
+                            <li class="list-group-item py-3">{{job.contact_lenght}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Start Date :</span> {{job.start_date}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">End Date :</span> {{job.end_date}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Mon-Fri :</span> {{job.mon_fri}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Saturday :</span> {{job.saturdays}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Sunday :</span> {{job.sundays}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Holidays :</span> {{job.holidays}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Job Description</li>
+                            <li class="list-group-item py-3">{{job.extra_info}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Requirements 1</li>
+                            <li class="list-group-item py-3">{{job.requirements_1}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Requirements 2</li>
+                            <li class="list-group-item py-3">{{job.requirements_2}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Requirements 3</li>
+                            <li class="list-group-item py-3">{{job.requirements_3}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Listing Status</li>
+                            <li class="list-group-item py-3">{{job.application_status}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Application Deadline :</span> {{job.deadline}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Applicant Start Date :</span>  {{job.start_date}}</li>
+                        </ul>
+                        <div style="height: 100px; width: 100%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="EditListingModal{{job.id}}" aria-hidden="true" aria-labelledby="EditListingModal2" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="EditListingModal2">{{job.job_title}} Update</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            <center>
+                                <section class="my-4">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button name="deleteOpenListing" class="btn btn-danger py-3  " style="width: 100%;">Delete</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="submit" name="update-Listing" class="btn text-white   py-3" style="width: 100%; background-color: darkblue;">Update</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </center>
+                            <label class="mb-2" for="floatingInput">Listing Status</label>
+                            <select class="form-select bg-light py-3" aria-label="Default select example" name="applicantionStatus">
+                                <option value="{{job.application_status}}" selected>{{job.application_status}}</option>
+                                <option value="Open">Open</option>
+                                <option value="Closed">Closed</option>
+                              </select>
+                            <h6 class="fontsColor mt-5">Job Details</h6>
+                            <input type="text" value="{{job.id}}" name="jobID" hidden="True">
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Job Title" name="job_title" required value="{{job.job_title}}">
+                                <label for="floatingInput">Job Title</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <textarea class="form-control bg-light" placeholder="Enter Job description here" id="floatingTextarea2" style="height: 200px" name="extra_info">{{job.extra_info}}</textarea>
+                                <label for="floatingTextarea2">Job description</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Company Name" name="companyName" required value="{{job.company}}">
+                                <label for="floatingInput">Company Name</label>
+                            </div>
+                            <h6 class="fontsColor mt-5">Company Information</h6>
+                            <select class="form-select bg-light py-3 mb-4" aria-label="Default select example" name="city">
+                                <option value="{{job.city}}" selected>{{job.city}}</option>
+                                {% for location in locations_list %}
+                                <option value="{{location.location_name}}">{{location.location_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <select class="form-select bg-light py-3 mb-4" aria-label="Default select example" name="province">
+                                <option value="{{job.province}}" selected>{{job.province}}</option>
+                                {% for provice in provice_list %}
+                                <option value="{{provice.province_name}}">{{provice.province_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <h6 class="fontsColor mt-5">Dates</h6>
+                            <div id="enddatehelp" class="form-text mt-3">Please select calendar icon if having troubles</div>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6 mt-3">
+                                    <p>{{job.start_date}}</p>
+                                    <div class="form-floating mb-4">
+                                        <input type="date" class="form-control bg-light" id="floatingInput" name="updatestartdate" value="{{job.start_date}}">
+                                        <label for="floatingInput">Start Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6 mt-3">
+                                    <p>{{job.end_date}}</p>
+                                    <div class="form-floating mb-4">
+                                        <input type="date" class="form-control bg-light" id="floatingInput" name="updateEndDate" value="{{job.end_date}}">
+                                        <label for="floatingInput">End Date</label>
+                                    </div>
+                                    <div id="enddatehelp" class="form-text">Leave End Date Blank if position is Permanent</div>
+                                </div>
+                            </div>
+                            <h6 class="fontsColor mt-5">Working Hours</h6>
+                            <div class="row">
+                                <div class="col-6 mt-3">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Mon-Fri" name="weekday" required value="{{job.mon_fri}}">
+                                        <label for="floatingInput">Mon-Fri</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Saturday" name="saturday" required value="{{job.saturdays}}">
+                                        <label for="floatingInput">Saturday</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Sunday" name="Sunday" required value="{{job.sundays}}">
+                                        <label for="floatingInput">Sundays</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Holidays" name="holidays" required value="{{job.holidays}}">
+                                        <label for="floatingInput">Holidays</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="fontsColor mt-5">Job Details</h6>
+                            <select class="form-select bg-light py-3 mb-4" aria-label="Default select example" name="jobStatus">
+                                <option value="{{job.job_status}}" selected>{{job.job_status}}</option>
+                                {% for status in jobstatus %}
+                                <option value="{{status.status_name}}">{{status.status_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <div id="enddatehelp" class="form-text">Contract Length( Optional )</div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Contract Length" name="Contract" required value="{{job.contact_lenght}}">
+                                <label for="floatingInput">Contract Length</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Contract Length" name="salary" required value="{{job.salary}}">
+                                <label for="floatingInput">Salary</label>
+                            </div>
+                            <div class="mb-4">
+                                <label for="employeehelp" class="form-label">How many positions open</label>
+                                <input type="number" class="form-control bg-light py-3" id="employeehelp" aria-describedby="emploees" placeholder="1" name="positions" value="{{job.open_positions}}">
+                                <div id="emploees" class="form-text">How many Candidates can apply for the position,Use Numbers eg 2</div>
+                              </div>
+                            <h6 class="fontsColor mt-5">Requirements ( Optional )</h6>
+                            <div class="form-floating mb-4">
+                                <textarea class="form-control bg-light" placeholder="Leave Requirements 1 here" id="floatingTextarea2" style="height: 250px" name="Requirements1">{{job.requirements_1}}</textarea>
+                                <label for="floatingTextarea2">Requirements 1</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <textarea class="form-control bg-light" placeholder="Leave Requirements 2 here" id="floatingTextarea2" style="height: 250px" name="Requirements2">{{job.requirements_2}}</textarea>
+                                <label for="floatingTextarea2">Requirements 2</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <textarea class="form-control bg-light" placeholder="Leave Requirements 3 here" id="floatingTextarea2" style="height: 250px" name="Requirements3">{{job.requirements_3}}</textarea>
+                                <label for="floatingTextarea2">Requirements 3</label>
+                            </div>
+                            <h6 class="fontsColor mt-3">Application</h6>
+                            <div id="enddatehelp" class="form-text">Please select calendar icon if having troubles</div>
+                            <p class="mt-2">{{job.deadline}}</p>
+                            <div class="form-floating mb-4">
+                                <input type="date" class="form-control bg-light" id="floatingInput" name="deadline" value="{{job.deadline}}">
+                                <label for="floatingInput">Application Deadline</label>
+                            </div>
+                            <p>{{job.start_date}}</p>
+                            <div class="form-floating mb-4">
+                                <input type="date" class="form-control bg-light" id="floatingInput" name="applicantstart" value="{{job.start_date}}">
+                                <label for="floatingInput">Applicant Start Date</label>
+                            </div>
+                            <center>
+                                <section class="my-4">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button name="deleteOpenListing" class="btn btn-danger py-3  " style="width: 100%;">Delete</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="submit" name="update-Listing" class="btn text-white   py-3" style="width: 100%; background-color: darkblue;">Update</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </center>
+                            <div style="height: 100px; width: 100%;"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn text-white" data-bs-target="#ListingDetailsModal{{job.id}}" data-bs-toggle="modal" style="background-color: darkblue;">Back listing</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="btn text-white" data-bs-toggle="modal" href="#ListingDetailsModal{{job.id}}" role="button" style="background-color: darkblue;">view listing</a>
+            <!-- Listing details and Edit Job modal end  -->
+        </div>
+    </div>
+    {% empty %}
+    <center class="mt-5">
+        <div class="alert alert-primary" role="alert">
+            <h6>No Open Job Listings <strong><a class="text-secondary px-3" href="#postJobModal" type="button"  data-bs-toggle="modal">Create new listing</a></strong></h6>
+        </div>
+    </center>
+    {% endfor %}
+    <!-- table jobs end -->
+</section>
+<!-- list open jobs end  -->
+
+
+<!-- closed Jobs start  -->
+<section class="container container-spacing">
+    <h6 class="admin-headings">Closed Listings</h6>
+    <div class="underline-style"></div>
+
+    <!-- table headings start  -->
+    <div class="row mx-0 mt-4 border bg-light rounded py-3 hide-component">
+        <div class="col fontsColor">
+            Job Title
+        </div>
+        <!-- <div class="col fontsColor">
+            Candidates
+        </div> -->
+        <div class="col fontsColor">
+            Viewed
+        </div>
+        <div class="col fontsColor">
+            Job Status
+        </div>
+        <div class="col fontsColor">
+            Action
+        </div>
+    </div>
+    <!-- table headings end  -->
+
+    <!-- table jobs start -->
+    {% for listing in agentClosedListing %}
+    <div class="row mx-0 border py-3 mt-3 rounded">
+        <div class="col-sm-12 col-lg mt-3 text-secondary">
+            {{listing.job_title}}
+        </div>
+        <!-- <div class="col-sm-12 col-lg mt-3">
+            <strong>5</strong> Candidates Applied
+        </div> -->
+        <div class="col-sm-12 col-lg mt-3">
+            {% for count in job_count %}
+            {% if count.joblisting.id == listing.id %}
+            <strong>{{count.views_count}}</strong> Views
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-12 col-lg mt-3">
+            {{listing.application_status}}
+        </div>
+        <div class="col-sm-12 col-lg mt-3">
+            <button class="btn text-white" style="background-color: darkblue; width: 50%;"  data-bs-toggle="modal" data-bs-target="#closedlistingdetails{{listing.id}}">View</button>
+            <!-- Modal -->
+            <div class="modal fade" id="closedlistingdetails{{listing.id}}" tabindex="-1" aria-labelledby="closedlistingdetails{{listing.id}}Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="closedlistingdetails{{listing.id}}Label">{{listing.job_title}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="text" value="{{listing.id}}" name="closedAppId" hidden="True">
+                                <input type="text" value="Open" name="closedapplStatus" hidden="True">
+                                <div class="row my-5">
+                                    <div class="col">
+                                        <button name="deleteClosedAppl" class="btn btn-danger py-3 fw-bold" style="width: 100%;">Delete</button>
+                                    </div>
+                                    <div class="col">
+                                        <button name="ReOpenListing" class="btn text-white py-3 fw-bold" style="background-color: darkblue; width: 100%;">Reopen</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </center>
+                        <ul class="list-group">
+                            <li class="list-group-item py-4 text-white fw-bold" style="background-color: darkblue;">Candidates</li>
+                            {% for candidate in candidates %}
+                            {% if candidate.listing.id == listing.id%}
+                            <li class="list-group-item py-3">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 mt-3">
+                                        {{candidate.first_name}} {{candidate.last_name}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 mt-3">
+                                        <a href="{% url 'candidate' candidate.id %}" style="text-decoration: none;">
+                                            <button class="btn text-white" style="background-color: darkblue;">View Candidate</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <ul class="list-group mt-5">
+                            <li class="list-group-item py-4 text-white fw-bold" style="background-color: darkblue;">Listing Details</li>
+                            <li class="list-group-item py-3">{{listing.job_title}}</li>
+                            <li class="list-group-item py-3">{{listing.company}}</li>
+                            <li class="list-group-item py-3">{{listing.city}}</li>
+                            <li class="list-group-item py-3">{{listing.province}}</li>
+                            <li class="list-group-item py-3">{{listing.salary}}</li>
+                            <li class="list-group-item py-3">{{listing.job_status}}</li>
+                            <li class="list-group-item py-3">{{listing.contact_lenght}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Start Date :</span> {{listing.start_date}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">End Date :</span> {{listing.end_date}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Mon-Fri :</span> {{listing.mon_fri}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Saturday :</span> {{listing.saturdays}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Sunday :</span> {{listing.sundays}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Holidays :</span> {{listing.holidays}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Job Description</li>
+                            <li class="list-group-item py-3">{{listing.extra_info}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Requirements 1</li>
+                            <li class="list-group-item py-3">{{listing.requirements_1}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Requirements 2</li>
+                            <li class="list-group-item py-3">{{listing.requirements_2}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Requirements 3</li>
+                            <li class="list-group-item py-3">{{listing.requirements_3}}</li>
+                            <li class="list-group-item py-3 bg-light text-secondary">Listing Status</li>
+                            <li class="list-group-item py-3">{{listing.application_status}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Application Deadline :</span> {{listing.deadline}}</li>
+                            <li class="list-group-item py-3"><span class="text-secondary">Applicant Start Date :</span>  {{listing.start_date}}</li>
+                        </ul>
+                        <div style="height: 100px; width: 100%;"></div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <div class="alert alert-primary mt-4" role="alert">
+            <a class="text-secondary px-3" href="#postJobModal" type="button"  data-bs-toggle="modal">No closed listings create new one</a></h6>
+        </div>
+    {% endfor %}
+    
+    <!-- table jobs end -->
+</section>
+<!-- closed Jobs end  -->
+
+{% endblock %}

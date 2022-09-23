@@ -1,0 +1,56 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Contact Us start  -->
+<section class="container mt-2">
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 mt-5">
+            <h3 class="fw-bold fontsColor">Get In Touch</h3>
+            <form class="mt-5" autocomplete="off">
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Enter your name" name="userName" required>
+                    <label for="floatingInput">Enter your name</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="Enter your email address" name="userEmail" required>
+                    <label for="floatingInput">Enter your email address</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 300px" required></textarea>
+                    <label for="floatingTextarea2">Go ahead,we are listening</label>
+                </div>
+                <center>
+                    <button type="submit" class="btn text-white fw-bold py-3 mt-4 px-5" style="background-color: darkblue;">Submit</button>
+                </center>
+            </form>
+        </div>
+        <div class="col-sm-12 col-lg-6 mt-5">
+            <img src="{% static 'images/contact.svg' %}" alt="" style="height: 300px; width: 100%; object-fit: contain;">
+            <section class="mt-5 container">
+                <div class="mb-5">
+                    <a href="tel:0837438933343" style="text-decoration: none;">
+                        <i class="bi bi-telephone-outbound-fill py-2 px-3 text-white rounded" style="background-color: darkblue; font-size: 17px;"></i>  <span class="text-secondary fw-bold px-3">083 743 8933</span>
+                    </a>
+                </div>
+                <div class="mb-5">
+                    <a href="mailto:admin@precocare.co.za" style="text-decoration: none;">
+                        <i class="bi bi-envelope-fill py-2 px-3 text-white rounded" style="background-color: darkblue; font-size: 17px;"></i>  <span class="text-secondary fw-bold px-3">admin@precocare.co.za</span>
+                    </a>
+                </div>
+                <div class="mb-5">  
+                    <a href="mailto:support@precocare.co.za" style="text-decoration: none;">
+                    <i class="bi bi-envelope-fill py-2 px-3 text-white rounded" style="background-color: darkblue; font-size: 17px;"></i>  <span class="text-secondary fw-bold px-3">support@precocare.co.za</span>
+
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<!-- Contact Us End  -->
+
+
+
+{% endblock %}

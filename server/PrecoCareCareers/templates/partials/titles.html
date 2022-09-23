@@ -1,0 +1,36 @@
+<div class="list-group list-group-flush hide-list">
+    {% for data in titles %}
+    <li class="list-group-item py-3 rounded"  style="background-color: #CFE2FF;">
+        <div class="row">
+            <div class="col d-flex align-items-center">
+                {{data.job_name}}
+            </div>
+            <!-- <div class="col-4">
+                <input type="text" value="{{data.job_name}}" id="title_name" hidden="True">
+                <button onclick="myfunc(event)" class="btn btn-primary">Select</button>
+            </div> -->
+            <div class="col-4">
+                <input name="contract_duration" type="radio" value="{{data.job_name}}"/> Select
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</div>
+<script>
+    
+
+    if (document.querySelector('input[name="contract_duration"]')) {
+        document.querySelectorAll('input[name="contract_duration"]').forEach((elem) => {
+        elem.addEventListener("change", function(event) {
+        var item = event.target.value;
+        document.getElementById("demo").value =item
+        
+        sessionStorage.setItem("titleName", item);
+        let addedTitle = sessionStorage.getItem("titleName");
+        document.getElementById("demo").value = addedTitle;
+        document.getElementById('inputSearch').value = '';
+        });
+    });
+    }
+
+</script>

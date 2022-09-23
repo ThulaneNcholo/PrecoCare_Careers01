@@ -1,0 +1,204 @@
+{% load static %}
+
+<div class="row mx-0 rounded">
+    <div class="col-sm-12 col-lg-4 mt-3 border bg-light p-3 ">
+        <a href="{% url 'dashboard'%}" style="text-decoration: none;">
+            <center>
+                <i class="bi bi-card-list text-secondary" style="font-size: 30px;"></i>
+                <p class="heroText">Dashboard</p>
+            </center>
+        </a>
+    </div>
+    <div class="col-sm-12 col-lg-4 mt-3 border bg-light p-3 heroText">
+        <a href="{% url 'approved'%}" style="text-decoration: none;">
+            <center>
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 30px;"></i>
+                <p class="heroText">Approved Canidates</p>
+                <p class="heroText">Interviews</p>
+
+            </center>
+        </a>
+    </div>
+    <div class="col-sm-12 col-lg-4 mt-3 text-white p-3" style="background-color: darkblue;">
+        <center>
+            <a href="#postJobModal" type="button"  data-bs-toggle="modal" style="text-decoration: none;">
+                <i class="bi bi-cloud-arrow-up-fill text-white" style="font-size: 30px;"></i>
+                <p class="text-white">Post a Job</p>
+            </a>
+        </center>
+    </div>
+</div>
+
+<!-- Post a job modal start  -->
+<section>
+        <!-- Modal -->
+        <div class="modal fade" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title fontsColor" id="postJobModalLabel">Post A Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <h6 class="fontsColor">Job Details</h6>
+
+                    <!-- Search Component start  -->
+                    <section class="mt-4 mb-3">
+                        <label for="Job Search" class="form-label">Search Job</label>
+                        <form>
+                            <!-- hx-indicator=".htmx-indicator" -->
+                            <div class="row">
+                                <div class="col">
+                                    <input id="inputSearch" type="text" class="form-control py-3" placeholder="General Practionior" style="width: 100%;" name="title" hx-post="{% url 'title_search' %}" hx-target="#titles-list" hx-trigger="keyup changed delay:200ms" > 
+                                </div> 
+                                <div class="col-4">
+                                    <button onclick="myfunc(event)" class="btn text-white py-3" style="width: 100%; background-color: darkblue;" type="submit" hx-post="{% url 'create' %}">Create</button>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- hx-post="{% url 'title_search' %}" hx-target="#titles-list" -->
+
+
+                    <!-- Search Component end  -->
+                    <section class="mb-5" id="titles-list" >
+                        {% include "partials/titles.html"%}
+                    </section>
+
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-light" id="demo" placeholder="Job Title" name="job_title" required readonly>
+                        <label for="floatingInput">Job Title</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea class="form-control bg-light" placeholder="Enter Job description here" id="floatingTextarea2" style="height: 200px" name="extra_info"></textarea>
+                        <label for="floatingTextarea2">Job description</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Company Name" name="companyName" required>
+                        <label for="floatingInput">Company Name</label>
+                    </div>
+                    <select class="form-select bg-light py-3 mb-4" aria-label="Default select example" name="city">
+                        <option selected>Select City</option>
+                        {% for location in locations_list %}
+                        <option value="{{location.location_name}}">{{location.location_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="form-select bg-light py-3 mb-4" aria-label="Default select example" name="province">
+                        <option selected>Select Provice</option>
+                        {% for provice in provice_list %}
+                        <option value="{{provice.province_name}}">{{provice.province_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <h6 class="fontsColor mt-5">Dates</h6>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6 mt-3">
+                            <div class="form-floating mb-4">
+                                <input type="date" class="form-control bg-light" id="floatingInput" name="startdate" required>
+                                <label for="floatingInput">Start Date</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 mt-3">
+                            <div class="form-floating mb-4">
+                                <input type="date" class="form-control bg-light" id="floatingInput" name="enddate" required>
+                                <label for="floatingInput">End Date</label>
+                            </div>
+                            <div id="enddatehelp" class="form-text">Leave End Date Blank if position is Permanent</div>
+                        </div>
+                    </div>
+                    <h6 class="fontsColor mt-5">Working Hours</h6>
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Mon-Fri" name="weekday" required>
+                                <label for="floatingInput">Mon-Fri</label>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Saturday" name="saturday" required>
+                                <label for="floatingInput">Saturday</label>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Sunday" name="Sunday" required>
+                                <label for="floatingInput">Sundays</label>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Holidays" name="holidays" required>
+                                <label for="floatingInput">Holidays</label>
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="fontsColor mt-5">Job Details</h6>
+                    <select class="form-select bg-light py-3 mb-4" aria-label="Default select example" name="jobStatus">
+                        <option selected>Select Job Status</option>
+                        {% for status in jobstatus %}
+                        <option value="{{status.status_name}}">{{status.status_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="enddatehelp" class="form-text">Contract Length( Optional )</div>
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Contract Length" name="Contract" required>
+                        <label for="floatingInput">Contract Length</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Contract Length" name="salary" required>
+                        <label for="floatingInput">Salary</label>
+                    </div>
+                    <div class="mb-4">
+                        <label for="employeehelp" class="form-label">How many positions open</label>
+                        <input type="number" class="form-control bg-light py-3" id="employeehelp" aria-describedby="emploees" placeholder="1" name="positions">
+                        <div id="emploees" class="form-text">How many Candidates can apply for the position,Use Numbers eg 2</div>
+                      </div>
+                    <h6 class="fontsColor mt-5">Requirements ( Optional )</h6>
+                    <div class="form-floating mb-4">
+                        <textarea class="form-control bg-light" placeholder="Leave Requirements 1 here" id="floatingTextarea2" style="height: 200px" name="Requirements1"></textarea>
+                        <label for="floatingTextarea2">Requirements 1</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea class="form-control bg-light" placeholder="Leave Requirements 2 here" id="floatingTextarea2" style="height: 200px" name="Requirements2"></textarea>
+                        <label for="floatingTextarea2">Requirements 2</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea class="form-control bg-light" placeholder="Leave Requirements 3 here" id="floatingTextarea2" style="height: 200px" name="Requirements3"></textarea>
+                        <label for="floatingTextarea2">Requirements 3</label>
+                    </div>
+                    <h6 class="fontsColor mt-3">Application</h6>
+                    <div id="enddatehelp" class="form-text">Please select calendar icon if having troubles</div>
+                    <div class="form-floating mb-4">
+                        <input type="date" class="form-control bg-light" id="floatingInput" name="deadline">
+                        <label for="floatingInput">Application Deadline</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="date" class="form-control bg-light" id="floatingInput" name="applicantstart">
+                        <label for="floatingInput">Applicant Start Date</label>
+                    </div>
+                    <center>
+                        <button type="submit" name="submit-listing" class="btn text-white fw-bold my-4 py-3" style="width: 50%; background-color: darkblue;">Submit</button>
+                    </center>
+                    <div style="height: 100px; width: 100%;"></div>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+</section>
+<!-- Post a job modal end  -->
+
+<script>
+    function myfunc(event){
+        event.preventDefault();
+        sessionStorage.clear();
+        const title = document.getElementById("inputSearch").value;
+        sessionStorage.setItem("createTitle", title);
+        let addedTitle = sessionStorage.getItem("createTitle");
+        document.getElementById("demo").value = addedTitle;
+        alert("successfully created.Please continue with you application.");
+    }
+</script>

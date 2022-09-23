@@ -1,0 +1,106 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="container mt-5">
+    {% for message in messages %}
+      <div class="alert alert-warning" role="alert">
+          {{message}}
+      </div>
+    {% endfor %}
+</section>
+
+<!-- page heading start  -->
+<section class="my-5">
+    <center>
+        <h3 class="text-secondary">Approved Canidates / Interviews</h3>
+    </center>
+</section>
+<!-- page heading start  -->
+
+<!-- hero buttons start  -->
+<section class="mt-5 container">
+    {% include 'partials/dashboardhero.html'%}
+</section>
+<!-- hero buttons end  -->
+
+<!-- list all Interviews Candidates start  -->
+<section class="container container-spacing">
+    <h6 class="admin-headings">Pending Interviews</h6>
+    <div class="underline-style"></div>
+    <ul class="list-group mt-4">
+        {% for candidate in candidatesInterviews %}
+        <li class="list-group-item">
+            <div class="row px-3 py-2">
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center rounded bg-light" style="color: darkblue;">
+                    <center>
+                        {{candidate.accepted_date}}
+                    </center>
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center text-secondary">
+                    Position :
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center">
+                    {{candidate.listing.job_title}}
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center text-secondary">
+                    Candidate :
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center">
+                    {{candidate.first_name}} {{candidate.last_name}}
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center">
+                    <a href="{% url 'candidate' candidate.id %}">
+                        <button class="btn text-white" style="background-color: darkblue;">View Application</button>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        <div class="alert alert-primary" role="alert">
+            No Interviews
+        </div>
+        {% endfor %}
+      </ul>
+</section>
+<!-- list all Interviews Candidates end  -->
+
+
+<!-- list all Approved Candidates start  -->
+<section class="container container-spacing">
+    <h6 class="admin-headings">Approved Candidates</h6>
+    <div class="underline-style"></div>
+    <ul class="list-group mt-4">
+        {% for data in candidatesApproved %}
+        <li class="list-group-item">
+            <div class="row px-3 py-2">
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center text-secondary">
+                    Position :
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center">
+                    {{data.listing.job_title}}
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center text-secondary">
+                    Candidate :
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center">
+                    {{data.first_name}} {{data.last_name}}
+                </div>
+                <div class="col-sm-12 col-lg mt-3 d-flex align-items-center">
+                    <a href="{% url 'candidate' data.id %}">
+                        <button class="btn text-white" style="background-color: darkblue;">View Application</button>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        <div class="alert alert-primary" role="alert">
+            No Approved Candidates
+        </div>
+        {% endfor %}
+      </ul>
+</section>
+<!-- list all Approved Candidates end  -->
+
+{% endblock %}

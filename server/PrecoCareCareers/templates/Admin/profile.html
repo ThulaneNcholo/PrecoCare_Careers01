@@ -1,0 +1,124 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="container mt-5">
+    {% for message in messages %}
+      <div class="alert alert-warning" role="alert">
+          {{message}}
+      </div>
+    {% endfor %}
+</section>
+
+<section class="container mt-5">
+    <!-- edit profile modal start  -->
+    <center>
+        <button class=" btn my-3 py-3 fw-bold rounded text-white" style="width: 100%; background-color: darkblue;" data-bs-toggle="modal" data-bs-target="#editprofilemodal{{profile.id}}">Edit Profile</button>
+    </center>
+        <!-- Modal -->
+        <div class="modal fade" id="editprofilemodal{{profile.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="text" value="{{profile.id}}" name="AgentId"> 
+                        <div class="mb-3">
+                          <label for="firstnameinput" class="form-label">First Name</label>
+                          <input type="text" class="form-control" id="firstnameinput" aria-describedby="firstnameHelp" value="{{profile.first_name}}" name="firstName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastnameinput" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastnameinput" aria-describedby="lastnameHelp" value="{{profile.last_name}}" name="lastName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{profile.email}}" readonly>
+                          </div>
+                        <div class="mb-3">
+                            <label for="verification" class="form-label">Verification Status</label>
+                            <input type="text" class="form-control" id="verification" aria-describedby="lastnameHelp" value="{{profile.verified}}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="datecreated" class="form-label">Date Created</label>
+                            <input type="text" class="form-control" id="datecreated" aria-describedby="lastnameHelp" value="{{profile.date_created}}" readonly>
+                        </div>
+                        <center>
+                            <div class="row my-5">
+                                <div class="col">
+                                    <button name="DeleteAgent" type="submit" class="btn btn-danger fw-bold py-3" style="width: 100%;">Delete</button>
+                                </div>
+                                <div class="col">
+                                    <button name="EditSubmit" type="submit" class="btn text-white py-3 fw-bold" style="background-color: darkblue; width: 100%;">Submit</button>
+                                </div>
+                            </div>
+                        </center>
+                      </form>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    <!-- edit profile modal end  -->
+
+
+    <ul class="list-group">
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 mt-3 col-md-6 text-secondary">
+                    First Name
+                </div>
+                <div class="col-sm-12 mt-3 col-md-6 fontsColor">
+                    {{profile.first_name}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 mt-3 col-md-6 text-secondary">
+                    Last Name
+                </div>
+                <div class="col-sm-12 mt-3 col-md-6 fontsColor">
+                    {{profile.last_name}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 mt-3 col-md-6 text-secondary">
+                    Email
+                </div>
+                <div class="col-sm-12 mt-3 col-md-6 fontsColor">
+                    {{profile.email}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 mt-3 col-md-6 text-secondary">
+                    Verified Status
+                </div>
+                <div class="col-sm-12 mt-3 col-md-6 fontsColor">
+                    {{profile.verified}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 mt-3 col-md-6 text-secondary">
+                    Date Created
+                </div>
+                <div class="col-sm-12 mt-3 col-md-6 fontsColor">
+                    {{profile.date_created}}
+                </div>
+            </div>
+        </li>
+      </ul>
+</section>
+
+{% endblock %}

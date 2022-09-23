@@ -1,0 +1,89 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<style>
+    @media screen and (min-width: 821px) {
+  .resize_button{
+    width: 70% !important;
+    background-color: darkblue !important;
+  }
+}
+</style>
+
+<!-- hero image start  -->
+<section style="height: 10%; width: 100%;">
+    <img src="{% static 'images/heroimage.jpg' %}" alt="" style="height: 300px; width: 100%; object-fit: cover;">
+</section>
+<!-- hero image end  -->
+
+<section class="container mt-5">
+    {% for message in messages %}
+      <div class="alert alert-warning" role="alert">
+          {{message}}
+      </div>
+    {% endfor %}
+</section>
+
+
+<!-- Search Filters start  -->
+<section class="container mt-5">
+    <h6 class="headings">Find Jobs availabe on <span style="color: darkblue;">PrecoCare Careers</span>.</h6>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mt-3">
+            <div class="col-sm-12 col-lg-4 mt-2">
+                <select class="form-select py-3" aria-label="Default select example" name="jobtitle" >
+                    <option selected value="">Select Job Type</option>
+                    {% for type in jobtype %}
+                    <option value="{{type.job_name}}">{{type.job_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-12 col-lg-4 mt-2">
+                <select class="form-select py-3" aria-label="Default select example" name="location" >
+                    <option selected value="">Select Location</option>
+                    {% for location in locations_list %}
+                    <option value="{{location.location_name}}">{{location.location_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-12 col-lg-4 mt-2">
+                <select class="form-select py-3" aria-label="Default select example" name="jobstatus" >
+                    <option selected value="">Job Status</option>
+                    {% for status in jobstatus %}
+                    <option value="{{status.status_name}}">{{status.status_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <center>
+            <button type="sumit" name="search-filter" class="btn text-white py-3 mt-5 mb-5 fw-bold resize_button" style="background-color: darkblue; width: 100%;">Search Job</button>
+            <!-- <p class="text-secondary">Start Posting Jobs on PrecoCare Careers <a href="#" class="fw-bold fontsColor px-1">Link</a> <span class="fw-bold"></span></p> -->
+        </center>
+    </form>
+</section>
+<!-- Search Filters end  -->
+
+
+<!-- Job Listings start  -->
+<section class="container mt-5">
+    <h6 class="headings">Job Feed</h6>
+    <div class="line-divider"></div>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 mx-0 px-0">
+        {% for listing in all_listings %}
+        {% include 'partials/listingCard.html'%}
+        {% empty %}
+        <div class="col-12">
+            <div  class="alert alert-primary" role="alert" style="width: 100% !important;">
+                Sorry we could not find any listing.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- Job listings end  -->
+
+{% endblock %}

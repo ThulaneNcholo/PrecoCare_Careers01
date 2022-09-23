@@ -1,0 +1,210 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="container mt-3">
+    <button onclick="history.back()" style="border: none; background-color: white;">
+        <i class="bi bi-arrow-left-circle-fill" style="font-size: 27px; color: darkblue;"></i>
+    </button>
+</section>
+
+<section class="container mt-5">
+    {% for message in messages %}
+      <div class="alert alert-warning" role="alert">
+          {{message}}
+      </div>
+    {% endfor %}
+</section>
+
+<section class="container mt-2">
+    <div class="border rounded p-4">
+        <h6 class="card-titles">{{job.job_title}}</h6>
+        <p>{{job.company}}</p>
+        <!-- <p>6558 Ndabezitha street</p> -->
+        <p>{{job.city}}</p>
+        <p>{{job.province}}</p>
+        <p class="text-secondary mb-3">{{job.salary}} - {{job.job_status}}</p>
+        {% if job.id == candidateList.listing.id %}
+        <center>
+            <button type="button" class="btn apply-btn py-3 my-3" style="width: 100%;"  data-bs-toggle="modal" data-bs-target="#deregister{{userListing.id}}">Deregister</button>
+        </center>
+        <!-- Modal -->
+        <div class="modal fade" id="deregister{{userListing.id}}" tabindex="-1" aria-labelledby="deregisterLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deregisterLabel">Deregister</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <h5>Are you sure ?</h5>
+                    </center>
+                    <div class="row my-4">
+                        <div class="col">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="text" value="{{userListing.id}}"  name="candidateId">
+                                <button type="submit" name="deregisterUser" class="btn btn-danger fw-bold" style="width: 100%;">Yes</button>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-secondary fw-bold" style="width: 100%;">No</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+        <center>
+            {% if user.is_authenticated %}
+            <button type="button" class="btn apply-btn py-3 my-3" style="width: 100%;"  data-bs-toggle="modal" data-bs-target="#exampleModal">Apply Now</button>
+            {% else %}
+            <a href="{% url 'login'%}" style="text-decoration: none;">
+                <button class="btn text-white py-3 my-3 fw-bold" style="width: 100%; background-color: darkblue;">Login to Apply</button>
+            </a>
+            {% endif %}
+        </center>
+        {% endif %}
+        <hr>
+        <h6 class="card-titles mt-5">Full Job Description</h6>
+        <p><span class="text-secondary">Start Date :</span>  {{job.start_date}}</p>
+        <p><span class="text-secondary">End Date :</span>  {{job.end_date}}</p>
+        <hr>
+        <p class="mt-5 text-secondary">Working hours:</p>
+        <p>Mon-Fri: <span class="px-4" style="color: darkblue;">{{job.mon_fri}}</span> </p>
+        <p>Sat: <span class="px-4" style="color: darkblue;">{{job.saturdays}}</span> </p>
+        <p>Sun : <span class="px-4" style="color: darkblue;">{{job.sundays}}</span> </p>
+        <p>Holidays : <span class="px-4" style="color: darkblue;">{{job.holidays}}</span></p>
+        <hr>
+        <p class="mt-5 fontsColor">Job Details</p>
+        <p class="text-secondary">Job Type</p>
+        <p>{{job.job_status}}</p>
+        <p class="text-secondary">Contract Length</p>
+        <p>{{job.contact_lenght}}</p>
+        <hr>
+        <p class="mt-5 text-secondary">Job description</p>
+        <p>{{job.extra_info}}</p>
+        <hr>
+        <p class="mt-5 text-secondary">Requirements</p>
+        <ol class="list-group list-group-numbered list-group-flush">
+            <li class="list-group-item px-0 my-3">{{job.requirements_1}}</li>
+            <li class="list-group-item px-0 my-3">{{job.requirements_2}}</li>
+            <li class="list-group-item px-0 my-3">{{job.requirements_3}}</li>
+          </ol>
+        <hr>
+        <p class="mt-5" style="color: darkblue;">Application</p>
+        <p class="text-secondary">Application Deadline</p>
+        <p>{{job.deadline}}</p>
+        <p class="text-secondary">Applicant Start Date</p>
+        <p>{{job.start_date}}</p>
+        <div class="row my-5">
+            <div class="col-12">
+                {% if job.id == userListing.listing.id%}
+                <center>
+                    <button type="button" class="btn apply-btn py-3 my-3" style="width: 100%;"  data-bs-toggle="modal" data-bs-target="#deregister{{userListing.id}}">Deregister</button>
+                </center>
+                {% else %}
+                <center>
+                    {% if user.is_authenticated %}
+                    <button type="button" class="btn apply-btn py-3 my-3" style="width: 100%;"  data-bs-toggle="modal" data-bs-target="#exampleModal">Apply Now</button>
+                    {% else %}
+                    <a href="{% url 'login'%}" style="text-decoration: none;">
+                        <button class="btn text-white py-3 my-3 fw-bold" style="width: 100%; background-color: darkblue;">Login to Apply</button>
+                    </a>
+                    {% endif %}
+                </center>
+                {% endif %}
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Contact Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form autocomplete="off" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="First Name" name="firstName" required>
+                                <label for="floatingInput">First Name</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Last Name" name="lastName" required>
+                                <label for="floatingInput">Last Name</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Phone Number" name="phoneNumber" required>
+                                <label for="floatingInput">Phone Number</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="email" class="form-control bg-light" id="floatingInput" placeholder="Email address" name="EmailAddress" required>
+                                <label for="floatingInput">Email address</label>
+                            </div>
+                            <div id="emailHelp" class="form-text">If you applying for a doctor position.</div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Doctor Lisence Number" name="licenseNumber">
+                                <label for="floatingInput">Doctor Lisence Number</label>
+                            </div>
+                            <h5 class="mt-5 mb-4 text-secondary fw-bold">Information needed</h5>
+                            <div class="mb-4">
+                                <label for="formFile" class="form-label">Upload Resume/CV</label>
+                                <input class="form-control bg-light py-2" type="file" id="formFile" name="resumeUpload" required>
+                            </div>
+                            <label for="formFile" class="form-label mt-3 fw-bold">Job experience 1 <span class="text-secondary">(optional)</span></label>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Job Title" name="jobtitle">
+                                <label for="floatingInput">Job Title</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Company Name" name="companyName">
+                                <label for="floatingInput">Company Name</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="CompanyPhone" name="companyPhone">
+                                <label for="floatingInput">Company Contact Number</label>
+                            </div>
+                            <label for="formFile" class="form-label mt-3 fw-bold">Job experience 2 <span class="text-secondary">(optional)</span></label>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Job Title" name="jobtitle2">
+                                <label for="floatingInput">Job Title</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="Company Name" name="companyName2">
+                                <label for="floatingInput">Company Name</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="text" class="form-control bg-light" id="floatingInput" placeholder="CompanyPhone" name="companyPhone2">
+                                <label for="floatingInput">Company Contact Number</label>
+                            </div>
+                            <h5 class="mt-5 mb-4 text-secondary fw-bold">Interview Dates</h5>
+                            <p class="text-secondary mb-1">Please select 2 dates you'll be availabe for an interview.</p>
+                            <p  class="text-secondary">Select calendar icon if you having trouble.</p>
+                            <div class="form-floating mb-4">
+                                <input type="date" class="form-control bg-light" id="floatingInput" name="dateone" required>
+                                <label for="floatingInput">Date 1</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="date" class="form-control bg-light" id="floatingInput" name="datetwo" required>
+                                <label for="floatingInput">Date 2</label>
+                            </div>
+                            <input type="text" value="{{job.id}}" name="listing_id" hidden="True">
+                            <input type="text" value="{{job.agent.id}}" name="agent_id" hidden="True">
+                            <center>
+                                <button name="submit-application" class="btn text-white py-2 my-4 fw-bold" style="background-color: darkblue; width: 50%;">Submit <i class="bi bi-arrow-right px-3"></i></button>
+                            </center>
+                        </form>
+                        <div style="height: 100px; width: 100%;"></div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

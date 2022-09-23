@@ -1,0 +1,171 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- css style  -->
+    <link rel="stylesheet" href="{% static '/css/main.css' %}">
+
+    <!-- js file  -->
+    <script src="{% static '/js/main.js' %}"></script>
+
+
+    <!-- Font Family  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- bootstrap icons  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- htmx cdn -->
+    <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script> 
+
+    
+    <style>
+      :root {
+    --primary-color: darkblue;
+}
+
+.body-fonts{
+    /* font-family: 'Roboto', sans-serif !important; */
+    font-family: 'Poppins', sans-serif !important;
+}
+
+
+.headings{
+    font-size: 18px;
+    font-weight: 700;
+    color: grey;
+}
+
+.line-divider{
+    height: 5px;
+    background-color: darkblue;
+    width: 30%;
+}
+
+
+/* navbar styling start  */
+.navbarBackground{
+    background-color: var(--primary-color) !important;
+}
+
+.navbarstyle{
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.navbarLinks {
+    color: #F0F1F4 !important;
+}
+
+/* navbar styling end  */
+
+
+
+
+/* job listing cards start  */
+.icon-style{
+    font-size: 30px;
+    color: var(--primary-color);
+}
+
+.card-titles{
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.apply-btn{
+    background-color: darkblue;
+    color: white;
+    font-weight: 600;
+}
+
+.favourite-btn{
+    color: var(--primary-color);
+    font-size: 18px;
+}
+/* job listing cards end  */
+
+
+/* Contact Us Start  */
+
+.fontsColor{
+    color: var(--primary-color) !important;
+}
+
+/* Contact Us end  */
+
+
+/* dashboard start  */
+
+.heroText{
+    color: var(--primary-color);
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.admin-headings{
+    color: grey;
+    font-weight: 600;
+}
+
+.underline-style{
+    background-color: var(--primary-color);
+    width: 10%;
+    height: 5px;
+}
+
+.container-spacing{
+    margin-top: 100px;
+}
+
+/* dashboard end  */
+
+
+
+
+@media only screen and (max-width: 991px) {
+  .hide-component{
+    display: none;
+  }
+}
+
+</style>
+
+
+    <title>PrecoCare Careers</title>
+  </head>
+  <body class="body-fonts">
+    {% include 'partials/navbar.html'%}
+    <section>
+        {% block content %}
+
+        {% endblock %}
+        <div style="height: 100px; width: 100%;"></div>
+    </section>
+    {% include 'partials/footer.html'%}
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

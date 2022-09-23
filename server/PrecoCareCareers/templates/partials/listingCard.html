@@ -1,0 +1,32 @@
+<div class="feature col border rounded p-4 position-relative">
+  <form method="POST">
+    {% csrf_token %}
+    <input type="text" value="{{listing.id}}" name="listingId" hidden="True">
+    <button type="submit" style="background-color: transparent; border: none;" name="add-favourite">
+      <i class="bi bi-bookmark-plus-fill text-secondary  translate-middle position-absolute top-0 end-0" style="font-size: 27px;"></i>
+    </button>
+  </form>
+    <i class="bi bi-clipboard2-data-fill icon-style"></i>  
+    <h4>{{listing.job_title}}</h4>
+    <p>{{listing.company}}</p>
+    {% if listing.agent.verified == "Yes"%}
+    <p>Verified <i class="bi bi-check-circle-fill px-2" style="color: #009FF4;"></i></p>
+    {% else %}
+    <p class="text-secondary"><s>Verified <i class="bi bi-check-circle-fill px-2 text-secondary"></i></s></p>
+    {% endif %}
+    <p class="text-secondary">{{listing.extra_info}}</p>
+    <p class="fw-bold">{{listing.salary}}</p>
+    <p class="bg-light py-2">{{listing.job_status}}</p>
+    <p>{{listing.city}}</p>
+    <p>{{listing.province}}</p>
+    <p>Listed : <span class="text-secondary">{{listing.date_created |date:"l,d M,Y"}}</span></p>
+    <form  action="{% url 'details' listing.id %}" method="POST">
+      {% csrf_token %}
+      <input type="text" value="{{listing.id}}" name="listing_id" hidden="True">
+      <input type="text" value="1" name="listing_count" hidden="True">
+      <button class="bg-white px-0" type="submit" style="border: none;" name="views_count">
+        <span class="text-secondary fw-bold">View Job </span><i class="bi bi-arrow-right-square-fill px-3" style="color: darkblue;"></i>
+      </button>
+    </form>
+    </a>
+</div>

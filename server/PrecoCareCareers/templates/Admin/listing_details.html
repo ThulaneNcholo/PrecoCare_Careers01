@@ -1,0 +1,237 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="container mt-5">
+    <button onclick="history.back()" style="border: none; background-color: white;">
+        <i class="bi bi-arrow-left-circle-fill" style="font-size: 27px; color: darkblue;"></i>
+    </button>
+</section>
+
+<section class="container mt-5">
+    <form method="POST">
+        {% csrf_token %}
+        <label for="candidateApplication" class="form-label mb-3">Candidate Application</label>
+        <select class="form-select py-3 bg-light mb-4" aria-label="Default select example" id="my-select" name="status">
+            <option selected>Application Status</option>
+            <option value="Accept">Approve</option>
+            <option value="Interview">Interview</option>
+            <option value="Decline">Decline</option>
+        </select>
+        <section id="showdate" style="display: none;">
+            <label for="interviewDate" class="form-label mb-3 text-secondary">Please select interview date..</label>
+            <div class="form-floating mb-4">
+                <input type="date" class="form-control bg-light" id="floatingInput" name="interviewDate">
+                <label for="floatingInput">Select Calender Icon if you having trouble.</label>
+            </div>
+            <div class="mb-3">
+                <label for="timeinput" class="form-label text-secondary">Interview Time</label>
+                <input type="time" class="form-control py-3 bg-light" id="timeinput" aria-describedby="timeinputhelp" name="timeslot">
+                <div id="timeinputhelp" class="form-text">Select Clock Icon if you having trouble.</div>
+            </div>
+            <section class="my-3">
+                <div class="alert alert-primary" role="alert">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="day" id="day1" value="am">
+                                <label class="form-check-label" for="day1">
+                                  Morning Interview ( am )
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="day" id="day1" value="pm">
+                                <label class="form-check-label" for="day1">
+                                  Afternoon Interview ( pm )
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+            </section>
+            
+        </section>
+        <center>
+            <input type="text" value="{{candidate.listing.job_title}}" name="positon" hidden="True">
+            <input type="text" value="{{candidate.listing.company}}" name="company" hidden="True">
+            <button type="submit" name="applicant_status" class="btn text-white fw-bold my-5 py-3" style="background-color: darkblue; width: 50%;">Submit</button>
+        </center>
+    </form>
+</section>
+
+<section class="container mt-5">
+    <ul class="list-group">
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Resume/CV
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {% if candidate.resume %}
+                    <a href="{{candidate.resume.url}}" download>
+                        <button class="btn text-white" style="background-color: darkblue;">Download</button>
+                    </a>
+                    {% else %}
+                    <p>No Resume Uploaded</p>
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Candidate Stauts
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.Accepted}}
+                </div>
+            </div>
+        </li>
+        {% if candidate.Accepted == 'Interview'%}
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Candidate Interview
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.accepted_date |date:"l d M Y"}} , <span class="text-dark">Time : </span>{{candidate.interview_time}} {{candidate.day}}
+                </div>
+            </div>
+        </li>
+        {% endif %}
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Full Name
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.first_name}} {{candidate.last_name}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Contact
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.contact}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Email
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.email}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Doctor Licence
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.doctor_licence}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3 text-secondary fw-bold bg-light">Experience 1</li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Position
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.exp1_title}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Company
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.exp1_company}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Company Contact
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.exp1_contact}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3 text-secondary fw-bold bg-light">Experience 2</li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Position
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.exp2_title}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Company
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.exp2_company}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Company Contact
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.exp2_contact}}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item py-3 text-secondary fw-bold bg-light">Interview Dates</li>
+        <li class="list-group-item py-3 text-secondary">{{candidate.interview_date1}}</li>
+        <li class="list-group-item py-3 text-secondary">{{candidate.interview_date2}}</li>
+        <li class="list-group-item py-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 pt-3">
+                    Date Applied
+                </div>
+                <div class="col-sm-12 col-md-6 pt-3 text-secondary">
+                    {{candidate.date_created}}
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<script>
+    document.getElementById('my-select').addEventListener('change', function() {
+    console.log('You selected: ', this.value);
+    if (this.value === 'Interview'){
+        document.getElementById('showdate').style.display = "block";
+    } else {
+        document.getElementById('showdate').style.display = "none";
+    }
+    });
+
+</script>
+{% endblock %}
+
+

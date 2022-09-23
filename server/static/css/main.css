@@ -1,0 +1,78 @@
+:root {
+    --primary-color: darkblue;
+}
+
+.body-fonts{
+    /* font-family: 'Roboto', sans-serif !important; */
+    font-family: 'Poppins', sans-serif !important;
+}
+
+
+.headings{
+    font-size: 18px;
+    font-weight: 700;
+    color: grey;
+}
+
+.line-divider{
+    height: 5px;
+    background-color: darkblue;
+    width: 30%;
+}
+
+
+/* navbar styling start  */
+.navbarBackground{
+    background-color: var(--primary-color) !important;
+}
+
+.navbarstyle{
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.navbarLinks {
+    color: #F0F1F4 !important;
+}
+
+/* navbar styling end  */
+
+
+
+
+/* job listing cards start  */
+.icon-style{
+    font-size: 30px;
+    color: var(--primary-color);
+}
+
+.card-titles{
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.apply-btn{
+    background-color: darkblue;
+    color: white;
+    font-weight: 600;
+}
+
+.favourite-btn{
+    color: var(--primary-color);
+    font-size: 18px;
+}
+/* job listing cards end  */
+
+
+/* Contact Us Start  */
+
+.fontsColor{
+    color: var(--primary-color) !important;
+}
+
+/* Contact Us end  */
+
+

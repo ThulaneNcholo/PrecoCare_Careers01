@@ -1,0 +1,189 @@
+{% extends 'PrecoCareCareers/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="container mt-5">
+    {% for message in messages %}
+      <div class="alert alert-warning" role="alert">
+          {{message}}
+      </div>
+    {% endfor %}
+</section>
+
+<!-- My Enrolled listings Start  -->
+<section class="container mt-5">
+    <h6 class="headings">Enrolled to Listings</h6>
+    <div class="line-divider"></div>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 mx-0 px-0">
+        {% for data in candidateListings %}
+        <div class="feature col border rounded p-4">
+             <p>{{data.first_name}} {{data.last_name}}</p>
+              {% if data.Accepted == "No" %}
+                <div class="alert alert-warning" role="alert">
+                  Application Pending
+                </div>
+              {% elif  data.Accepted == "Accept" %}
+              <div class="alert alert-success" role="alert">
+                Application Approved
+              </div>
+              {% elif data.Accepted == "Interview" %}
+              <div class="alert alert-primary" role="alert">
+                <p class="mb-1">Interview </p> 
+                <p class="mb-1">Date : {{data.accepted_date}}</p>
+                <p class="mb-1">Time : {{data.interview_time}} {{data.day}}</p>
+              </div>
+              {% elif data.Accepted == "Decline" %}
+              <div class="alert alert-danger" role="alert">
+                Application Declined
+              </div>
+              {% endif %}
+              <i class="bi bi-clipboard2-data-fill icon-style"></i>  
+              <h4>{{data.listing.job_title}}</h4>
+              <p>{{data.listing.company}}</p>
+              <p class="text-secondary">{{data.listing.extra_info}}</p>
+              <p class="fw-bold">{{data.listing.salary}}</p>
+              <p class="bg-light py-2">{{data.listing.job_status}}</p>
+              <p>{{data.listing.city}}</p>
+              <p>{{data.listing.province}}</p>
+              <p>Listed : <span class="text-secondary">{{data.listing.date_created |date:"l,d M,Y"}}</span></p>
+              
+              <!-- listing details modal start  -->
+              <div class="modal fade" id="listingdetails{{data.listing.id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalToggleLabel">{{data.listing.job_title}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <section class="">
+                        <div class="border rounded p-4">
+                            <h6 class="card-titles">{{data.listing.job_title}}</h6>
+                            <p>{{data.listing.company}}</p>
+                            <!-- <p>6558 Ndabezitha street</p> -->
+                            <p>{{data.listing.city}}</p>
+                            <p>{{data.listing.province}}</p>
+                            <p class="text-secondary mb-5">{{data.listing.salary}} - {{data.listing.job_status}}</p>
+                            <center>
+                              <button class="btn text-white py-3"  style="background-color: darkblue; width: 50%;" data-bs-target="#deregisteruser{{data.listing.id}}" data-bs-toggle="modal">Deregister</button>
+                            </center>
+                            <hr>
+                            <h6 class="card-titles mt-5">Full Job Description</h6>
+                            <p><span class="text-secondary">Start Date :</span>  {{data.listing.start_date}}</p>
+                            <p><span class="text-secondary">End Date :</span>  {{data.listing.end_date}}</p>
+                            <hr>
+                            <p class="mt-5 text-secondary">Working hours:</p>
+                            <p>Mon-Fri: <span class="px-4" style="color: darkblue;">{{data.listing.mon_fri}}</span> </p>
+                            <p>Sat: <span class="px-4" style="color: darkblue;">{{data.listing.saturdays}}</span> </p>
+                            <p>Sun : <span class="px-4" style="color: darkblue;">{{data.listing.sundays}}</span> </p>
+                            <p>Holidays : <span class="px-4" style="color: darkblue;">{{data.listing.holidays}}</span></p>
+                            <hr>
+                            <p class="mt-5 fontsColor">Job Details</p>
+                            <p class="text-secondary">Job Type</p>
+                            <p>{{data.listing.job_status}}</p>
+                            <p class="text-secondary">Contract Length</p>
+                            <p>{{data.listing.contact_lenght}}</p>
+                            <hr>
+                            <p class="mt-5 text-secondary">Job description</p>
+                            <p>{{data.listing.extra_info}}</p>
+                            <hr>
+                            <p class="mt-5 text-secondary">Requirements</p>
+                            <ol class="list-group list-group-numbered list-group-flush">
+                                <li class="list-group-item px-0 my-3">{{data.listing.requirements_1}}</li>
+                                <li class="list-group-item px-0 my-3">{{data.listing.requirements_2}}</li>
+                                <li class="list-group-item px-0 my-3">{{data.listing.requirements_3}}</li>
+                              </ol>
+                            <hr>
+                            <p class="mt-5" style="color: darkblue;">Application</p>
+                            <p class="text-secondary">Application Deadline</p>
+                            <p>{{data.listing.deadline}}</p>
+                            <p class="text-secondary">Applicant Start Date</p>
+                            <p>{{data.listing.start_date}}</p>
+                            <center>
+                              <button class="btn text-white py-3 my-5"  style="background-color: darkblue; width: 50%;" data-bs-target="#deregisteruser{{data.listing.id}}" data-bs-toggle="modal">Deregister</button>
+                            </center>
+                        </div>
+                    </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="deregisteruser{{data.listing.id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalToggleLabel2">{{data.listing.job_title}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <center>
+                          <h5>Are you sure ?</h5>
+                      </center>
+                      <div class="row my-4">
+                          <div class="col">
+                              <form method="POST">
+                                  {% csrf_token %}
+                                  <input type="text" value="{{data.id}}"  name="candidateId" hidden="True">
+                                  <button type="submit" name="deregisterUser" class="btn btn-danger fw-bold" style="width: 100%;">Yes</button>
+                              </form>
+                          </div>
+                          <div class="col">
+                              <button class="btn btn-secondary fw-bold" style="width: 100%;" data-bs-dismiss="modal" aria-label="Close">No</button>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn text-white" style="background-color: darkblue;" data-bs-target="#listingdetails{{data.listing.id}}" data-bs-toggle="modal">Back to first</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="btn text-white" data-bs-toggle="modal" href="#listingdetails{{data.listing.id}}" role="button" style="background-color: darkblue;">View details</a>
+              <!-- listing details modal end  -->
+          </div>
+    {% empty %}
+    <div class="alert alert-primary" role="alert">
+        No listing applied to.
+    </div>
+    {% endfor %}
+    </div>
+</section>
+<!-- My Enrolled listings End  -->
+
+<!-- My Favourite Jobs start  -->
+<section class="container mt-5">
+    <h6 class="headings">Favourite Jobs</h6>
+    <div class="line-divider"></div>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 mx-0 px-0">
+        {% for data in userFavourites %}
+        <div class="feature col border rounded p-4 position-relative">
+            <form method="POST">
+              {% csrf_token %}
+              <input type="text" value="{{data.id}}" name="listingId" hidden="True">
+              <button type="submit" style="background-color: transparent; border: none;" name="remove-favourite">
+                <i class="bi bi-bookmark-dash-fill translate-middle position-absolute top-0 end-0" style="font-size: 27px; color: darkblue;"></i>
+              </button>
+            </form>
+              <i class="bi bi-clipboard2-data-fill icon-style"></i>  
+              <h4>{{data.listing.job_title}}</h4>
+              <p>{{data.listing.company}}</p>
+              <p class="text-secondary">{{data.listing.extra_info}}</p>
+              <p class="fw-bold">{{data.listing.salary}}</p>
+              <p class="bg-light py-2">{{data.listing.job_status}}</p>
+              <p>{{data.listing.city}}</p>
+              <p>{{data.listing.province}}</p>
+              <p>Listed : <span class="text-secondary">{{data.listing.date_created |date:"l,d M,Y"}}</span></p>
+              <a href="{% url 'details' data.listing.id %}">
+                <button class="btn text-white mt-3" style="background-color: darkblue;">View Listing</button>
+              </a>
+          </div>
+    {% empty %}
+    <div class="alert alert-primary" role="alert">
+        No Favourites to show
+    </div>
+    {% endfor %}
+    </div>
+</section>
+<!-- My Favourite Jobs end  -->
+{% endblock %}

@@ -1,0 +1,93 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light navbarBackground" style="padding-top: 88px; padding-bottom: 30px;">
+    <div class="container">
+      <a class="navbar-brand text-white navbarstyle" href="{% url 'index'%}">PrecoCare <span class="text-secondary">Career's</span></a>
+      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list text-white"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item ">
+            <a class="nav-link active navbarLinks" aria-current="page" href="{% url 'index'%}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'about'%}">About</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'support'%}">Support</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link navbarLinks"  data-bs-toggle="offcanvas" href="#newsletteroffcanvas" role="button" aria-controls="newsletteroffcanvas">Newsletter</a>  
+          </li>
+          {%  if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'favourites'%}">My Listings</a>  
+          </li>
+          {% endif %}
+          {% if user.groups.all.0.name == "agent" %}
+          <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'dashboard'%}">Dashboard</a>  
+          </li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          <!-- <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'agent'%}">Register</a>  
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'logout'%}">Logout</a>  
+          </li> 
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link navbarLinks" href="{% url 'login'%}">Login</a>  
+          </li> 
+          {% endif %} 
+          {% if user.groups.all.0.name == "agent" %}  
+          <li class="nav-item">  
+            <a class="nav-link navbarLinks" href="{% url 'profile'%}"><i class="bi bi-person-circle"></i> {{request.user}}</a>  
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Newsletter offcanvas start  -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="newsletteroffcanvas" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Newsletter</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body py-4">
+      <center>
+        <h3 class="fw-bold fontsColor">STAY TUNED</h3>
+        <P class="text-secondary">Subcribe to our newsletter and stay up to date with the latest job opportunities.</P>
+      </center>
+      <section class="mt-4">
+        <form autocomplete="off">
+          {% csrf_token %}
+          <div class="form-floating mb-4">
+            <input type="text" class="form-control" id="nameinput" placeholder="Enter your name" name="NameNewsletter" required>
+            <label for="floatingInput">Enter your name</label>
+          </div>
+          <div class="form-floating mb-4">
+              <input type="email" class="form-control" id="emailinput" placeholder="Enter your email address" name="EmailNewsletter" required>
+              <label for="floatingInput">Enter your email address</label>
+          </div>
+          <center>
+            <button onclick="subcribe(event)"  hx-post="{% url 'subscribe' %}" type="submit" class="btn text-white fw-bold py-3 mt-4 px-5" style="background-color: darkblue;">Subcribe</button>
+          </center>
+        </form>
+      </section>
+    </div>
+  </div>
+  <!-- Newsletter offcanvas end  -->
+
+
+  <script>
+    function subcribe(event){
+        event.preventDefault();
+        alert("successfully subcribed to our newsletter.");
+    }
+  </script>
